@@ -1,0 +1,200 @@
+openapi: 3.0.3
+info:
+  title: 'Weather API'
+  version: 1.0.0
+paths:
+  /weather/records/:
+    get:
+      operationId: records_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name : date
+        required: false
+        in: query
+        description: Date of the weather record
+        schema:
+          type: string
+      - name : station
+        required: false
+        in: query
+        description: Station of the weather record
+        schema:
+          type: string
+      
+      tags:
+      - records
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWeatherRecordList'
+          description: ''
+  /weather/stats/:
+    get:
+      operationId: stats_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name : year
+        required: false
+        in: query
+        description: Year of the weather statistics
+        schema:
+          type: integer
+      - name : station
+        required: false
+        in: query
+        description: Station of the weather statistics
+        schema:
+          type: string
+      tags:
+      - stats
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWeatherStatisticsList'
+          description: ''
+components:
+  schemas:
+    PaginatedWeatherRecordList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeatherRecord'
+    PaginatedWeatherStatisticsList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeatherStatistics'
+    WeatherRecord:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        station_id:
+          type: string
+          maxLength: 255
+        max_temp:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        min_temp:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        precipitation:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+      required:
+      - date
+      - max_temp
+      - min_temp
+      - precipitation
+      - station_id
+    WeatherStatistics:
+      type: object
+      properties:
+        year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        station_id:
+          type: string
+          maxLength: 255
+        avg_max_temp:
+          type: number
+          format: double
+          nullable: true
+        avg_min_temp:
+          type: number
+          format: double
+          nullable: true
+        total_precipitation:
+          type: number
+          format: double
+          nullable: true
+      required:
+      - station_id
+      - year
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
