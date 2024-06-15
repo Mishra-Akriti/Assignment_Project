@@ -6,13 +6,14 @@ This Django project provides an API to manage and retrieve weather records and s
 
 ## Table of Contents
 
-- [Project Structure](#Project-Structure)
+- [Project Structure](#project-structure)
 - [Installation](#installation)
 - [Running the Server](#running-the-server)
 - [API Endpoints](#api-endpoints)
 - [Running Tests](#running-tests)
 - [Data Ingestion Command](#data-ingestion-command)
 - [API Documentation](#api-documentation)
+- [AWS Deployment](#aws-deployment)
 
 
 
@@ -175,8 +176,34 @@ API documentation is provided using drf-spectacular and can be accessed at the f
 - **Swagger UI**: `/weather/api/docs/`
 - **ReDoc**: `/weather/api/redoc/`
 
+## AWS Deployment
+
+**Deploy Django API:**
+Use AWS Elastic Beanstalk to easily deploy and run a web application in multiple languages, including Python, which is used by Django.
+Configure a load balancer to handle incoming traffic and distribute it to multiple instances of the Django application.
+
+
+**Deploy database:**
+Use Amazon Relational Database Service (RDS) to host a PostgreSQL database. It is fully managed and provides a scalable and secure database solution. and Configure database access in Django to securely connect to the RDS instance.
+
+**Data Storage:**
+Use AWS S3 to store text files.
+
+
+**Scheduling data ingestion:**
+Use AWS ECS FARGATE to run the data ingestion code on a schedule and ECR for storing the Image.
+and Use Amazon CloudWatch Events to set up a rule to trigger the Fargate tasks at specific intervals.
+Store the ingested data in the RDS database.
+
+
+**Conclusion**
+With this approach, application is scalable, secure, and easily managed deployment of Django API, database, and data ingestion code.
+The load balancer and auto-scaling features of AWS Elastic Beanstalk and Amazon RDS will ensure that the API and database can handle changing levels of traffic, while AWS ECS FARGATE and Amazon CloudWatch Events allow you to run the data ingestion code as needed without having to manage any infrastructure.
+
+
 
 ## Screen Shots
-![](/img/Screenshot%202024-06-14%20at%205.09.11 PM.png)
-![](/img/Screenshot%202024-06-14%20at%205.08.22 PM.png)
+![](/img/1.png)
+![](/img/2.png)
+
 
