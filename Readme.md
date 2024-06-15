@@ -37,7 +37,7 @@ This Django project provides an API to manage and retrieve weather records and s
 │   └── management/
 │       └── commands/
 │           └── ingest_weather_data.py  # Custom command for data ingestion.
-├── weather_data_api/
+├── weather_project/
 │   ├── __init__.py
 │   ├── asgi.py
 │   ├── settings.py
